@@ -25,12 +25,15 @@ func StartRouter(apiPort string, dbCon *sql.DB) {
 	public := router.Group("/")
 	{
 		public.GET("/", healthCheck)
-
 	}
 
 	apiRoutes := router.Group("/api")
 	{
 		apiRoutes.GET("/", healthCheck)
+
+		apiRoutes.GET("/article/:articleID", DbHandler.GetArticle)
+
+		apiRoutes.POST("article/", DbHandler.CreateArticle)
 	}
 
 	router.Run(":" + apiPort)
