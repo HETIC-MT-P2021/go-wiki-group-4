@@ -28,6 +28,21 @@ func CreateArticle(title string, content string) (Article, error) {
 	}
 	return newArticle, nil
 }
+// delete an article
+func DeleteArticle(articleID string, title string, content string, db *sql.DB) error {
+
+	unlinkSQL := `
+	DELETE * FROM article WHERE articleID=$1 ;`
+
+	customerRow := db.QueryRow(unlinkSQL, articleID)
+	unlinkErr := customerRow.Scan()
+
+	if unlinkErr != nil {
+		return unlinkErr
+	}
+
+	return nil
+}
 
 // GetArticle by ID
 func GetArticle(articleID string) (Article, error) {

@@ -29,7 +29,6 @@ func CreateComment(content string, articleID string) (Comment, error) {
 func GetComment(commentID string) (Comment, error) {
 	var thisComment Comment
 
-	// Get information from this mailingLit
 	commentSQL := `SELECT * FROM comment WHERE comment_id=$1;`
 
 	commentRow := db.QueryRow(commentSQL, commentID)
