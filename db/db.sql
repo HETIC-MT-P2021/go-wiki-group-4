@@ -10,6 +10,6 @@ CREATE TABLE article
 
 CREATE TABLE comment (
     comment_id serial PRIMARY KEY,
-    article_id serial references article(article_id)
-    content VARCHAR (256) NOT NULL,
+    article_id int references article(article_id),
+    content VARCHAR (256) NOT NULL
 );
