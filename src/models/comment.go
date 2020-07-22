@@ -12,11 +12,11 @@ type Comment struct {
 }
 
 // CreateComment will add a new comment to a article in DB
-func CreateComment(content string, articleID int, db *sql.DB) (Comment, error) {
+func CreateComment(content string, articleID int) (Comment, error) {
 	var newComment Comment
 
 	createCommentSQL := `
-	INSERT INTO comment (content, article_id)
+	INSERT INTO comment (article_id, content)
 	VALUES ($1, $2) RETURNING *;`
 
 	commentRow := db.QueryRow(createCommentSQL, content, articleID)

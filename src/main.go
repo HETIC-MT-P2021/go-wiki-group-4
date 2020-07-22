@@ -15,7 +15,7 @@ func main() {
 		panic("Ajouter les variables d'environnement au niveaux du .env.example")
 	}
 
-	dbCon := models.ConnectToDB(env["DB_HOST"], env["DB_NAME"], env["DB_USER"], env["DB_PASSWORD"], env["DB_PORT"])
+	models.ConnectToDB(env["DB_HOST"], env["DB_NAME"], env["DB_USER"], env["DB_PASSWORD"], env["DB_PORT"])
 
-	router.StartRouter(env["API_PORT"], dbCon)
+	router.StartRouter(env["API_PORT"])
 }

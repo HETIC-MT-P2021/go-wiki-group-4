@@ -1,46 +1,46 @@
 package models
-<<<<<<< Updated upstream
-=======
 
 import (
-"database/sql"
-
-"github.com/gin-gonic/gin"
+	"database/sql"
+	"errors"
 )
-// article wiki
-type article struct {
-	article_id      int
-	title           string
-	content         string
+
+// Article wiki
+type Article struct {
+	articleID int
+	title     string
+	content   string
 }
 
-func CreateArticle(title string, content string, db *sql.DB) (article, error) {
+// CreateArticle handle request to add a new article to the db
+func CreateArticle(title string, content string) (Article, error) {
 	sqlStatement := `
 	INSERT INTO article (title, content)
 	VALUES ($1,$2) RETURNING article_id, title, content;`
 
-	var newArticle article
+	var newArticle Article
 
 	row := db.QueryRow(sqlStatement, title)
-	err := row.Scan(&newArticle.article_id, &newArticle.title)
+	err := row.Scan(&newArticle.articleID, &newArticle.title)
 
 	if err != nil {
 		return newArticle, err
 	}
 	return newArticle, nil
 }
+
 // GetArticle by ID
-func GetArticle(article_id string, db *sql.DB) (article, error) {
+func GetArticle(articleID string) (Article, error) {
 
 	sqlStatement := `SELECT * FROM article WHERE article_id=$1;`
 
-	var article article
+	var article Article
 
-	row := db.QueryRow(sqlStatement, article_id)
+	row := db.QueryRow(sqlStatement, articleID)
 
 	var err error
 
-	err = row.Scan(&article.article_id, &article.title)
+	err = row.Scan(&article.articleID, &article.title)
 
 	switch err {
 	case sql.ErrNoRows:

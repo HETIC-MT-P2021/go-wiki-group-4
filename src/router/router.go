@@ -1,7 +1,6 @@
 package router
 
 import (
-	"database/sql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,11 +15,8 @@ func healthCheck(c *gin.Context) {
 }
 
 // StartRouter will launch the web server
-func StartRouter(apiPort string, dbCon *sql.DB) {
+func StartRouter(apiPort string) {
 	router := gin.New()
-
-	DbHandler := new(controllers.HandleDb)
-	DbHandler.DbCon = dbCon
 
 	public := router.Group("/")
 	{
@@ -29,11 +25,17 @@ func StartRouter(apiPort string, dbCon *sql.DB) {
 
 	apiRoutes := router.Group("/api")
 	{
-		apiRoutes.GET("/", healthCheck)
+		//Articles
 
-		apiRoutes.GET("/article/:articleID", DbHandler.GetArticle)
+		apiRoutes.GET("/article/:articleID", controllers.GetArticle)
 
-		apiRoutes.POST("article/", DbHandler.CreateArticle)
+		apiRoutes.POST("/article", controllers.CreateArticle)
+
+		// Comments
+
+		apiRoutes.GET("/comment/:commentID", controllers.GetComment)
+
+		apiRoutes.POST("/comment", controllers.CreateComment)
 	}
 
 	router.Run(":" + apiPort)

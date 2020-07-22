@@ -8,8 +8,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var db = sql.DB
+
 // ConnectToDB Set up connection to the mysql db and returns it
-func ConnectToDB(host string, dbname string, user string, password string, port string) *sql.DB {
+func ConnectToDB(host string, dbname string, user string, password string, port string) {
 	fmt.Println("Go MySQL ")
 
 	dbParameter := user + ":" + password + "@tcp(" + host + ":" + port + ")/" + dbname
@@ -17,14 +19,14 @@ func ConnectToDB(host string, dbname string, user string, password string, port 
 	// Open up our database connection.
 	// set up a database on local machine using phpmyadmin.
 	// The database is called gomvc
-	db, err := sql.Open("mysql", dbParameter)
+	tempDB, err := sql.Open("mysql", dbParameter)
 
 	if err != nil {
 		fmt.Println("Database connection params error")
 		panic(err)
 	}
 
-	err = db.Ping()
+	err = tempDB.Ping()
 	if err != nil {
 		fmt.Println("Database initialisation error")
 		panic(err)
@@ -34,5 +36,5 @@ func ConnectToDB(host string, dbname string, user string, password string, port 
 
 	// defer the close till after the main function has finished
 	// executing
-	return db
+	db = tempDB
 }
