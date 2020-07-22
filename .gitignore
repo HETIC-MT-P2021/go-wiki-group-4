@@ -1,0 +1,6 @@
+pkg
+src/.env
+**/*/tmp
+**/*/assets
+**/*/bin
+**/*/vendor
