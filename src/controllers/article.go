@@ -8,12 +8,11 @@ import (
 )
 
 // GetArticle handle request to get an article
-func (paramHandler *HandleDb) GetArticle(c *gin.Context) {
-	dbConnection := paramHandler.DbCon
+func GetArticle(c *gin.Context) {
 
 	articleID := c.Param("articleID")
 
-	thisArticle, err := models.GetArticle(articleID, dbConnection)
+	thisArticle, err := models.GetArticle(articleID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -31,13 +30,12 @@ func (paramHandler *HandleDb) GetArticle(c *gin.Context) {
 }
 
 // CreateArticle handle request to send create a new article
-func (paramHandler *HandleDb) CreateArticle(c *gin.Context) {
-	dbConnection := paramHandler.DbCon
+func CreateArticle(c *gin.Context) {
 
 	title := c.PostForm("title")
 	content := c.PostForm("content")
 
-	thisArticle, err := models.CreateArticle(title, content, dbConnection)
+	thisArticle, err := models.CreateArticle(title, content)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

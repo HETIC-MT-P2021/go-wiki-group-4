@@ -1,9 +1,5 @@
 package models
 
-import (
-	"database/sql"
-)
-
 // Comment wiki
 type Comment struct {
 	commentID int
@@ -12,7 +8,7 @@ type Comment struct {
 }
 
 // CreateComment will add a new comment to a article in DB
-func CreateComment(content string, articleID int) (Comment, error) {
+func CreateComment(content string, articleID string) (Comment, error) {
 	var newComment Comment
 
 	createCommentSQL := `
@@ -30,7 +26,7 @@ func CreateComment(content string, articleID int) (Comment, error) {
 }
 
 // GetComment will get information from a comment in DB
-func GetComment(commentID int, db *sql.DB) (Comment, error) {
+func GetComment(commentID string) (Comment, error) {
 	var thisComment Comment
 
 	// Get information from this mailingLit

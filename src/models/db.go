@@ -8,7 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var db = sql.DB
+var db *sql.DB
 
 // ConnectToDB Set up connection to the mysql db and returns it
 func ConnectToDB(host string, dbname string, user string, password string, port string) {
