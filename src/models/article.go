@@ -14,10 +14,10 @@ type article struct {
 	content         string
 }
 
-func CreateArticle(title string, db *sql.DB) (article, error) {
+func CreateArticle(title string, content string, db *sql.DB) (article, error) {
 	sqlStatement := `
-	INSERT INTO article (title)
-	VALUES ($1) RETURNING article_id, title;`
+	INSERT INTO article (title, content)
+	VALUES ($1,$2) RETURNING article_id, title, content;`
 
 	var newArticle article
 
@@ -29,4 +29,26 @@ func CreateArticle(title string, db *sql.DB) (article, error) {
 	}
 	return newArticle, nil
 }
->>>>>>> Stashed changes
+// GetArticle by ID
+func GetArticle(article_id string, db *sql.DB) (article, error) {
+
+	sqlStatement := `SELECT * FROM article WHERE article_id=$1;`
+
+	var article article
+
+	row := db.QueryRow(sqlStatement, article_id)
+
+	var err error
+
+	err = row.Scan(&article.article_id, &article.title)
+
+	switch err {
+	case sql.ErrNoRows:
+		return article, errors.New("Notfound, no article found for this id")
+	case nil:
+		return article, nil
+
+	default:
+		return article, errors.New("Internal Server error")
+	}
+}
