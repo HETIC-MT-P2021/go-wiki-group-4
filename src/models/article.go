@@ -7,34 +7,35 @@ import (
 
 // Article wiki
 type Article struct {
-	articleID int
-	title     string
-	content   string
+	ArticleID int
+	Title     string
+	Content   string
 }
 
 // CreateArticle handle request to add a new article to the db
-func CreateArticle(title string, content string) (Article, error) {
+func CreateArticle(Title string, Content string) (Article, error) {
 	sqlStatement := `
-	INSERT INTO article (title, content)
-	VALUES ($1,$2) RETURNING article_id, title, content;`
+	INSERT INTO article (Title, Content)
+	VALUES ($1,$2) RETURNING article_id, Title, Content;`
 
 	var newArticle Article
 
-	row := db.QueryRow(sqlStatement, title)
-	err := row.Scan(&newArticle.articleID, &newArticle.title)
+	row := db.QueryRow(sqlStatement, Title)
+	err := row.Scan(&newArticle.ArticleID, &newArticle.Title)
 
 	if err != nil {
 		return newArticle, err
 	}
 	return newArticle, nil
 }
-// delete an article
-func DeleteArticle(articleID string, title string, content string, db *sql.DB) error {
+
+// DeleteArticle by Id
+func DeleteArticle(ArticleID string, Title string, Content string, db *sql.DB) error {
 
 	unlinkSQL := `
-	DELETE * FROM article WHERE articleID=$1 ;`
+	DELETE * FROM article WHERE ArticleID=$1 ;`
 
-	customerRow := db.QueryRow(unlinkSQL, articleID)
+	customerRow := db.QueryRow(unlinkSQL, ArticleID)
 	unlinkErr := customerRow.Scan()
 
 	if unlinkErr != nil {
@@ -45,17 +46,17 @@ func DeleteArticle(articleID string, title string, content string, db *sql.DB) e
 }
 
 // GetArticle by ID
-func GetArticle(articleID string) (Article, error) {
+func GetArticle(ArticleID string) (Article, error) {
 
 	sqlStatement := `SELECT * FROM article WHERE article_id=$1;`
 
 	var article Article
 
-	row := db.QueryRow(sqlStatement, articleID)
+	row := db.QueryRow(sqlStatement, ArticleID)
 
 	var err error
 
-	err = row.Scan(&article.articleID, &article.title)
+	err = row.Scan(&article.ArticleID, &article.Title)
 
 	switch err {
 	case sql.ErrNoRows:

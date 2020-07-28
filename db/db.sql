@@ -4,17 +4,14 @@ USE gomvc;
 
 CREATE TABLE IF NOT EXISTS article
 (
-  article_id bigint(20) AUTO_INCREMENT,
+  article_id serial PRIMARY KEY,
   title VARCHAR (128) NOT NULL,
   content TEXT NOT NULL,
-
-  PRIMARY KEY (article_id)
+  UNIQUE (title)
 );
 
 CREATE TABLE IF NOT EXISTS comment (
-  comment_id bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  article_id bigint(20) NOT NULL,
-  content VARCHAR (256) NOT NULL,
-
-  FOREIGN KEY (article_id) REFERENCES article(article_id)
+  comment_id serial PRIMARY KEY,
+  article_id int references article(article_id),
+  content VARCHAR (256) NOT NULL
 );
