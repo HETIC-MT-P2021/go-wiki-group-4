@@ -1,8 +1,8 @@
-package Utils
-
+package utils
 
 import (
 	"fmt"
+
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
@@ -20,5 +20,3 @@ func Utilitaires() {
 		fmt.Println(err)
 	}
 }
-
-
