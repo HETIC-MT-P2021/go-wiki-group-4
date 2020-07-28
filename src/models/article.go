@@ -108,11 +108,46 @@ func GetCommentFromArticleID(articleID string) ([]Comment, error) {
 
 	switch err {
 	case sql.ErrNoRows:
-		return comments, errors.New("Notfound, no article found for this id")
+		return comments, errors.New("Notfound, no comments found for this id")
 	case nil:
 		return comments, nil
 
 	default:
 		return comments, errors.New("Internal Server error")
+	}
+}
+
+// GetArticles fetch all articles
+func GetArticles() ([]Article, error) {
+
+	sqlStatement := `SELECT * FROM article limit 20;`
+
+	var articles []Article
+
+	rows, queryErr := db.Query(sqlStatement)
+
+	if queryErr != nil {
+		return articles, queryErr
+	}
+
+	var err error
+
+	for rows.Next() {
+		var thisArticle Article
+
+		if err = rows.Scan(&thisArticle.ArticleID, &thisArticle.Title, &thisArticle.Content); err != nil {
+			return articles, err
+		}
+		articles = append(articles, thisArticle)
+	}
+
+	switch err {
+	case sql.ErrNoRows:
+		return articles, errors.New("Notfound, no article found for this id")
+	case nil:
+		return articles, nil
+
+	default:
+		return articles, errors.New("Internal Server error")
 	}
 }
