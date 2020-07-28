@@ -3,6 +3,8 @@ module packages.hetic.net/gomvc
 go 1.14
 
 require (
+	github.com/360EntSecGroup-Skylar/excelize v1.4.1
+	github.com/360EntSecGroup-Skylar/excelize/v2 v2.2.0 // indirect
 	github.com/cosmtrek/air v1.12.1 // indirect
 	github.com/creack/pty v1.1.11 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
@@ -20,7 +22,7 @@ require (
 	github.com/myesui/uuid v1.0.0 // indirect
 	github.com/pelletier/go-toml v1.8.0 // indirect
 	github.com/twinj/uuid v1.0.0 // indirect
-	golang.org/x/sys v0.0.0-20200727154430-2d971f7391a4 // indirect
+	golang.org/x/sys v0.0.0-20200728102440-3e129f6d46b1 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/stretchr/testify.v1 v1.2.2 // indirect
 )
