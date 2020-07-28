@@ -100,7 +100,7 @@ func GetCommentFromArticleID(articleID string) ([]Comment, error) {
 	for rows.Next() {
 		var thisComment Comment
 
-		if err = rows.Scan(&thisComment.commentID, &thisComment.articleID, &thisComment.content); err != nil {
+		if err = rows.Scan(&thisComment.CommentID, &thisComment.ArticleID, &thisComment.Content); err != nil {
 			return comments, err
 		}
 		comments = append(comments, thisComment)
