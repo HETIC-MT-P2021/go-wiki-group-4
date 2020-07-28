@@ -1,4 +1,5 @@
-package Utiltaires
+package Utils
+
 
 import (
 	"fmt"
