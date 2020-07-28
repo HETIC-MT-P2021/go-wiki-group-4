@@ -17,7 +17,6 @@ Install the dependencies and start the server.
 
 ```sh
 $ git clone https://github.com/HETIC-MT-P2021/go-wiki-group-4.git
-$ cd src
 $ go get
 $ go get -u github.com/gin-gonic/gin
 $ go get -u github.com/cosmtrek/air
