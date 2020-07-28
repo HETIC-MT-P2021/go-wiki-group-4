@@ -59,13 +59,13 @@ func DeleteArticle(articleID string, title string, content string, db *sql.DB) e
 }
 
 // GetArticle by ID
-func GetArticle(articleID string) (Article, error) {
+func GetArticle(ArticleID string) (Article, error) {
 
 	sqlStatement := `SELECT * FROM article WHERE article_id=?;`
 
 	var article Article
 
-	row := db.QueryRow(sqlStatement, articleID)
+	row := db.QueryRow(sqlStatement, ArticleID)
 
 	var err error
 

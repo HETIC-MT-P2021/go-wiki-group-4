@@ -5,14 +5,17 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"packages.hetic.net/gomvc/models"
+	"packages.hetic.net/gomvc/views"
 )
+
+var view *views.View
 
 // GetArticle handle request to get an article
 func GetArticle(c *gin.Context) {
-
 	articleID := c.Param("articleID")
-
 	thisArticle, err := models.GetArticle(articleID)
+
+	view = views.NewView("bootstrap", "views/show_single_article.html")
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -21,11 +24,7 @@ func GetArticle(c *gin.Context) {
 			"content": false,
 		})
 	} else {
-		c.JSON(http.StatusFound, gin.H{
-			"success": true,
-			"message": "Found article successfully",
-			"content": thisArticle,
-		})
+		view.Render(c.Writer, thisArticle)
 	}
 }
 
@@ -54,7 +53,6 @@ func CreateArticle(c *gin.Context) {
 
 // GetCommentFromArticleID handle request to get an article's comment
 func GetCommentFromArticleID(c *gin.Context) {
-
 	articleID := c.Param("articleID")
 
 	comments, err := models.GetCommentFromArticleID(articleID)
@@ -71,5 +69,22 @@ func GetCommentFromArticleID(c *gin.Context) {
 			"message": "Found article successfully",
 			"content": comments,
 		})
+	}
+}
+
+// GetLatestArticles fetch latest articles
+func GetLatestArticles(c *gin.Context) {
+	latestArticles, err := models.GetArticles()
+
+	view = views.NewView("bootstrap", "views/show_articles.html")
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"message": err,
+			"content": false,
+		})
+	} else {
+		view.Render(c.Writer, latestArticles)
 	}
 }

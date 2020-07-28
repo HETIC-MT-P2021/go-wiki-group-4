@@ -20,23 +20,14 @@ func StartRouter(apiPort string) {
 
 	public := router.Group("/")
 	{
-		public.GET("/", healthCheck)
-	}
+		public.GET("/", controllers.GetLatestArticles)
 
-	apiRoutes := router.Group("/api")
-	{
-		//Articles
-
-		apiRoutes.GET("/article/:articleID", controllers.GetArticle)
-		apiRoutes.GET("/article/:articleID/comments", controllers.GetCommentFromArticleID)
-
-		apiRoutes.POST("/article", controllers.CreateArticle)
+		// Articles
+		public.GET("/articles/:articleID", controllers.GetArticle)
+		public.POST("/articles", controllers.CreateArticle)
 
 		// Comments
-
-		apiRoutes.GET("/comment/:commentID", controllers.GetComment)
-
-		apiRoutes.POST("/comment", controllers.CreateComment)
+		public.POST("/comment", controllers.CreateComment)
 	}
 
 	router.Run(":" + apiPort)
