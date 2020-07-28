@@ -28,6 +28,7 @@ func StartRouter(apiPort string) {
 		//Articles
 
 		apiRoutes.GET("/article/:articleID", controllers.GetArticle)
+		apiRoutes.GET("/article/:articleID/comments", controllers.GetCommentFromArticleID)
 
 		apiRoutes.POST("/article", controllers.CreateArticle)
 

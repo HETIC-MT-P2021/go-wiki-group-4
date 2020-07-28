@@ -2,9 +2,9 @@ package models
 
 // Comment wiki
 type Comment struct {
-	commentID int
-	articleID int
-	content   string
+	CommentID int
+	ArticleID int
+	Content   string
 }
 
 // CreateComment will add a new comment to a article in DB
@@ -13,10 +13,9 @@ func CreateComment(content string, articleID string) (Comment, error) {
 
 	createCommentSQL := `
 	INSERT INTO comment (article_id, content)
-	VALUES ($1, $2) RETURNING *;`
+	VALUES (?, ?);`
 
-	commentRow := db.QueryRow(createCommentSQL, content, articleID)
-	err := commentRow.Scan(&newComment.commentID, &newComment.articleID, &newComment.content)
+	_, err := db.Exec(createCommentSQL, content, articleID)
 
 	if err != nil {
 		return newComment, err
@@ -29,10 +28,10 @@ func CreateComment(content string, articleID string) (Comment, error) {
 func GetComment(commentID string) (Comment, error) {
 	var thisComment Comment
 
-	commentSQL := `SELECT * FROM comment WHERE comment_id=$1;`
+	commentSQL := `SELECT * FROM comment WHERE comment_id=?;`
 
 	commentRow := db.QueryRow(commentSQL, commentID)
-	err := commentRow.Scan(&thisComment.commentID, &thisComment.articleID, &thisComment.content)
+	err := commentRow.Scan(&thisComment.CommentID, &thisComment.ArticleID, &thisComment.Content)
 
 	if err != nil {
 		return thisComment, err

@@ -51,3 +51,25 @@ func CreateArticle(c *gin.Context) {
 		})
 	}
 }
+
+// GetCommentFromArticleID handle request to get an article's comment
+func GetCommentFromArticleID(c *gin.Context) {
+
+	articleID := c.Param("articleID")
+
+	comments, err := models.GetCommentFromArticleID(articleID)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"message": err,
+			"content": false,
+		})
+	} else {
+		c.JSON(http.StatusFound, gin.H{
+			"success": true,
+			"message": "Found article successfully",
+			"content": comments,
+		})
+	}
+}
