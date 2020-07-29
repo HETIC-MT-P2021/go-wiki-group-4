@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"packages.hetic.net/gomvc/models"
+	utils "packages.hetic.net/gomvc/utils/strategies"
 	"packages.hetic.net/gomvc/views"
 )
 
@@ -87,4 +88,19 @@ func GetLatestArticles(c *gin.Context) {
 	} else {
 		view.Render(c.Writer, latestArticles)
 	}
+}
+
+// ExportAs export all artilces in certain format
+func ExportAs(c *gin.Context) {
+	// format := c.DefaultQuery("format", "csv")
+	// response := utils.ExportedContent{
+	// 	Type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+	// 	Data: "",
+	// }
+	response := utils.ExportedContent{
+		Type: "text/csv",
+		Data: "",
+	}
+
+	c.Data(http.StatusOK, response.Type+"; charset=utf-8", []byte(response.Data))
 }
