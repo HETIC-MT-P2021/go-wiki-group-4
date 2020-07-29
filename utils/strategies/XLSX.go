@@ -2,11 +2,10 @@ package utils
 
 import (
 	"fmt"
-
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
-func Utilitaires() {
+func utils() {
 	f := excelize.NewFile()
 	// Create a new sheet.
 	index := f.NewSheet("Sheet2")
