@@ -14,31 +14,28 @@ func (c *ExportStrategyContext) SetStrategy(newStrategy ExportStrategyInterface)
 	c.selectedStrategy = newStrategy
 }
 
-// ExportArticles create a file with all articles
-func (c *ExportStrategyContext) ExportArticles() ([]byte, error) {
-	// Fetch articles
-	var file []byte
+// GetSelectedStrategyMimeType returns the selected strategy mime type
+func (c *ExportStrategyContext) GetSelectedStrategyMimeType() string {
+	return c.selectedStrategy.MIMEType
+}
 
+// ExportArticles create a file with all articles
+func (c *ExportStrategyContext) ExportArticles() (ExportedContent, error) {
 	articles, err := models.GetArticles()
 
 	if err != nil {
-		return file, err
+		// return file, err
 	}
 
 	// Run selected strategy
+	exportedContent, err := c.selectedStrategy.ExportArticlesFile(articles)
 
-	file, err = c.selectedStrategy.ExportArticlesFile(articles)
-
-	if err != nil {
-		return file, err
-	}
-
-	return file, nil
+	return exportedContent, err
 }
 
 // InitStrategies is the function called in main to init the strategies
 func InitStrategies() ExportStrategyContext {
-	csvStrategy := initCSVStrategy()
+	csvStrategy := InitCSVStrategy()
 	// initXLSXStrategy()
 	var exportStrategies ExportStrategyContext
 

@@ -8,5 +8,5 @@ import (
 type ExportStrategyInterface struct {
 	MIMEType string
 
-	ExportArticlesFile (func(articles []models.Article) ([]byte, error))
+	ExportArticlesFile (func(articles []models.Article) (ExportedContent, error))
 }

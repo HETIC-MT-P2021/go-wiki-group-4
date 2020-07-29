@@ -92,15 +92,20 @@ func GetLatestArticles(c *gin.Context) {
 
 // ExportAs export all artilces in certain format
 func ExportAs(c *gin.Context) {
-	// format := c.DefaultQuery("format", "csv")
-	// response := utils.ExportedContent{
-	// 	Type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-	// 	Data: "",
-	// }
-	response := utils.ExportedContent{
-		Type: "text/csv",
-		Data: "",
+	format := c.DefaultQuery("format", "csv")
+
+	var exportStrategy utils.ExportStrategyInterface
+	if format == "xlsx" {
+		exportStrategy = utils.InitCSVStrategy()
+	} else {
+		exportStrategy = utils.InitCSVStrategy()
 	}
 
-	c.Data(http.StatusOK, response.Type+"; charset=utf-8", []byte(response.Data))
+	strategyContext := utils.InitStrategies()
+	strategyContext.SetStrategy(exportStrategy)
+
+	response, _ := strategyContext.ExportArticles()
+	response.Type = strategyContext.GetSelectedStrategyMimeType()
+
+	c.Data(http.StatusOK, response.Type+"; charset=utf-8", response.Data)
 }
