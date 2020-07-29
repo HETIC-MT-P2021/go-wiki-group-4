@@ -96,7 +96,7 @@ func ExportAs(c *gin.Context) {
 
 	var exportStrategy utils.ExportStrategyInterface
 	if format == "xlsx" {
-		exportStrategy = utils.InitCSVStrategy()
+		exportStrategy = utils.InitXLSXStrategy()
 	} else {
 		exportStrategy = utils.InitCSVStrategy()
 	}
