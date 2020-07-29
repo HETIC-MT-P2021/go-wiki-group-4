@@ -4,38 +4,45 @@ import (
 	"packages.hetic.net/gomvc/models"
 )
 
-// ExportStrategy struct is used to define how should the data be exported
+// ExportStrategyContext struct is used to define how should the data be exported
 type ExportStrategyContext struct {
 	selectedStrategy ExportStrategyInterface
-
-	SelectStrategy func(newStrategy ExportStrategyInterface)
-	ExportArticles func()
 }
 
-
-// SelectStrategy change the selected strategy
-func (c ExportStrategyContext) SelectStrategy(newStrategy ExportStrategyInterface) {
+// SetStrategy change the selected strategy
+func (c *ExportStrategyContext) SetStrategy(newStrategy ExportStrategyInterface) {
 	c.selectedStrategy = newStrategy
 }
 
 // ExportArticles create a file with all articles
-func (c ExportStrategyContext) ExportArticles() string, error {
+func (c *ExportStrategyContext) ExportArticles() ([]byte, error) {
 	// Fetch articles
+	var file []byte
 
 	articles, err := models.GetArticles()
 
 	if err != nil {
-		return nil, err
+		return file, err
 	}
 
 	// Run selected strategy
 
-	
-	filePath, err := c.selectedStrategy.ExportArticlesFile(articles)
+	file, err = c.selectedStrategy.ExportArticlesFile(articles)
 
 	if err != nil {
-		return nil, err
+		return file, err
 	}
 
-	return filePath, nil
+	return file, nil
+}
+
+// InitStrategies is the function called in main to init the strategies
+func InitStrategies() ExportStrategyContext {
+	csvStrategy := initCSVStrategy()
+	// initXLSXStrategy()
+	var exportStrategies ExportStrategyContext
+
+	exportStrategies.SetStrategy(csvStrategy)
+
+	return exportStrategies
 }
