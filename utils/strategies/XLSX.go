@@ -19,7 +19,7 @@ func InitXLSXStrategy() ExportStrategyInterface {
 	return XLSXStrategy
 }
 
-//  create a xlsx file and send it
+//  create a xlsx file 
 func ExportArticleXLSX(datas []models.Article) (ExportedContent, error) {
 	f := excelize.NewFile()
 	// Set value of a cell.
