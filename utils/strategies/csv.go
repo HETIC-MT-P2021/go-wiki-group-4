@@ -1,9 +1,8 @@
 package utils
 
 import (
+	"bytes"
 	"encoding/csv"
-	"io/ioutil"
-	"os"
 	"strconv"
 
 	"packages.hetic.net/gomvc/models"
@@ -25,16 +24,12 @@ func InitCSVStrategy() ExportStrategyInterface {
 func ExportArticleCSV(articles []models.Article) (ExportedContent, error) {
 	var exportedCSVContent ExportedContent
 
-	file, err := os.Create("article.csv")
+	var content = new(bytes.Buffer)
 
-	if err != nil {
-		return exportedCSVContent, err
-	}
-
-	writer := csv.NewWriter(file)
+	writer := csv.NewWriter(content)
 	defer writer.Flush()
 
-	err = writer.Write(articleHeaders)
+	err := writer.Write(articleHeaders)
 
 	for i := 0; i < len(articles); i++ {
 		thisArticleRow := []string{strconv.Itoa(articles[i].ArticleID), articles[i].Title, articles[i].Content}
@@ -45,14 +40,7 @@ func ExportArticleCSV(articles []models.Article) (ExportedContent, error) {
 		}
 	}
 
-	data, err := ioutil.ReadFile("article.csv")
-	defer os.Remove("article.csv")
-
-	if err != nil {
-		return exportedCSVContent, err
-	}
-
-	exportedCSVContent.Data = data
+	exportedCSVContent.Data = content.Bytes()
 
 	return exportedCSVContent, nil
 }
