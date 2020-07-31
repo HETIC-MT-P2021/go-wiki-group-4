@@ -98,12 +98,12 @@ func GetCommentFromArticleID(articleID string) ([]Comment, error) {
 	var err error
 
 	for rows.Next() {
-		var thisComment Comment
+		var Comment Comment
 
-		if err = rows.Scan(&thisComment.CommentID, &thisComment.ArticleID, &thisComment.Content); err != nil {
+		if err = rows.Scan(&Comment.CommentID, &Comment.ArticleID, &Comment.Content); err != nil {
 			return comments, err
 		}
-		comments = append(comments, thisComment)
+		comments = append(comments, Comment)
 	}
 
 	switch err {
@@ -133,12 +133,12 @@ func GetArticles() ([]Article, error) {
 	var err error
 
 	for rows.Next() {
-		var thisArticle Article
+		var Article Article
 
-		if err = rows.Scan(&thisArticle.ArticleID, &thisArticle.Title, &thisArticle.Content); err != nil {
+		if err = rows.Scan(&Article.ArticleID, &Article.Title, &Article.Content); err != nil {
 			return articles, err
 		}
-		articles = append(articles, thisArticle)
+		articles = append(articles, Article)
 	}
 
 	switch err {
