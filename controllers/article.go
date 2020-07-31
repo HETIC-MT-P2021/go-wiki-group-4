@@ -95,17 +95,25 @@ func ExportAs(c *gin.Context) {
 	format := c.DefaultQuery("format", "csv")
 
 	var exportStrategy utils.ExportStrategyInterface
+
 	if format == "xlsx" {
 		exportStrategy = utils.InitXLSXStrategy()
 	} else {
 		exportStrategy = utils.InitCSVStrategy()
 	}
 
-	strategyContext := utils.InitStrategies()
+	strategyContext := utils.InitExportContext()
 	strategyContext.SetStrategy(exportStrategy)
 
-	response, _ := strategyContext.ExportArticles()
-	response.Type = strategyContext.GetSelectedStrategyMimeType()
+	response, err := strategyContext.ExportArticles()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"message": err,
+			"content": false,
+		})
+	}
 
 	c.Data(http.StatusOK, response.Type+"; charset=utf-8", response.Data)
 }
