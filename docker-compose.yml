@@ -19,7 +19,7 @@ services:
       - .:/app
     working_dir: /app
     ports:
-      - "8080:8082"
+      - "8080:8080"
     command: go run main.go
     links:
       - db
