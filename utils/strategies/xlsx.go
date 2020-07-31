@@ -1,8 +1,6 @@
 package utils
 
 import (
-	"io/ioutil"
-	"os"
 	"strconv"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
@@ -30,21 +28,17 @@ func ExportArticleXLSX(datas []models.Article) (ExportedContent, error) {
 		f.SetCellValue("Sheet", "C"+indexExcel, item.Content)
 	}
 
-	// Save xlsx file
-	err := f.SaveAs("article.xlsx")
+	data, err := f.WriteToBuffer()
 
 	if err != nil {
 		return exportedXLSXContent, err
 	}
 
-	data, err := ioutil.ReadFile("article.xlsx")
-	defer os.Remove("article.xlsx")
-
 	if err != nil {
 		return exportedXLSXContent, err
 	}
 
-	exportedXLSXContent.Data = data
+	exportedXLSXContent.Data = data.Bytes()
 
 	return exportedXLSXContent, err
 }
