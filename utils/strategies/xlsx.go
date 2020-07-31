@@ -9,15 +9,8 @@ import (
 	"packages.hetic.net/gomvc/models"
 )
 
-// InitXLSXStrategy returns the strategy to create the XLX file
-func InitXLSXStrategy() ExportStrategyInterface {
-	var XLSXStrategy ExportStrategyInterface
-
-	XLSXStrategy.MIMEType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-	XLSXStrategy.ExportArticlesFile = ExportArticleXLSX
-
-	return XLSXStrategy
-}
+// XLSXStrategyMIMEType Mime type for XLSX documents
+var XLSXStrategyMIMEType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
 // ExportArticleXLSX creates a xlsx file with all aricles
 func ExportArticleXLSX(datas []models.Article) (ExportedContent, error) {
