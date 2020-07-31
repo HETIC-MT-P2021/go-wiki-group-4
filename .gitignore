@@ -4,3 +4,4 @@ tmp
 assets
 vendor
 .idea
+.gomvc-db-persisted
