@@ -21,20 +21,30 @@ func (c *ExportStrategyContext) GetSelectedStrategyMimeType() string {
 
 // ExportArticles create a file with all articles
 func (c *ExportStrategyContext) ExportArticles() (ExportedContent, error) {
-	articles, err := models.GetArticles()
+	var exportedFileContent ExportedContent
 
-	if err != nil {
-		// return file, err
+	articles, articleErr := models.GetArticles()
+
+	if articleErr != nil {
+		return exportedFileContent, articleErr
 	}
 
-	// Run selected strategy
-	exportedContent, err := c.selectedStrategy.ExportArticlesFile(articles)
+	var err error
 
-	return exportedContent, err
+	// Run selected strategy
+	exportedFileContent, err = c.selectedStrategy.ExportArticlesFile(articles)
+
+	if err != nil {
+		return exportedFileContent, err
+	}
+
+	exportedFileContent.Type = c.GetSelectedStrategyMimeType()
+
+	return exportedFileContent, nil
 }
 
-// InitStrategies is the function called in main to init the strategies
-func InitStrategies() ExportStrategyContext {
+// InitExportContext is the function called in main to init the strategies
+func InitExportContext() ExportStrategyContext {
 	csvStrategy := InitCSVStrategy()
 	// initXLSXStrategy()
 	var exportStrategies ExportStrategyContext
