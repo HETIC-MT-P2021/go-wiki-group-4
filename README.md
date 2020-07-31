@@ -24,6 +24,14 @@ $ go mod vendor
 $ air
 ```
 
+### With Docker
+
+After cloning the repo, `cd` into the project and run following commands
+
+```bash
+docker-compose up --build
+```
+
 ### Technical Choices
 
 Feel free to discuss with any contributor about the technical choices that were made.

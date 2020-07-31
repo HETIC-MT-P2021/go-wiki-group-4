@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: "gomvc"
+      MYSQL_USER: "gomvc-user"
+      MYSQL_PASSWORD: "dcL!p4BS_SWRszi"
+      MYSQL_ROOT_PASSWORD: "very-strong-password"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+
+  app:
+    build: .
+    environment:
+      GIN_MODE: "release"
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "8080:8082"
+    command: go run main.go
+    links:
+      - db
