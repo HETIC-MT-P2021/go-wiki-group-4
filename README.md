@@ -32,6 +32,8 @@ After cloning the repo, `cd` into the project and run following commands
 docker-compose up --build
 ```
 
+The app will be accessible at localhost:8080 !
+
 ### Technical Choices
 
 Feel free to discuss with any contributor about the technical choices that were made.
