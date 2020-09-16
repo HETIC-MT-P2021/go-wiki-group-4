@@ -40,6 +40,10 @@ Feel free to discuss with any contributor about the technical choices that were 
 Go version : 1.14.4
 MySQL : 8.X
 
+### Authors
+[Jean-Jacques](https://github.com/gensjaak)  [Myouuu](https://github.com/myouuu)  [Tsabot](https://github.com/Tsabot)
+
+
 # Licence
 
 The code is available under the MIT license.
