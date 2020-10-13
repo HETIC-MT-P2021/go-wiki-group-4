@@ -26,16 +26,16 @@ func CreateComment(content string, articleID string) (Comment, error) {
 
 // GetComment will get information from a comment in DB
 func GetComment(commentID string) (Comment, error) {
-	var thisComment Comment
+	var Comment Comment
 
 	commentSQL := `SELECT * FROM comment WHERE comment_id=?;`
 
 	commentRow := db.QueryRow(commentSQL, commentID)
-	err := commentRow.Scan(&thisComment.CommentID, &thisComment.ArticleID, &thisComment.Content)
+	err := commentRow.Scan(&Comment.CommentID, &Comment.ArticleID, &Comment.Content)
 
 	if err != nil {
-		return thisComment, err
+		return Comment, err
 	}
 
-	return thisComment, nil
+	return Comment, nil
 }

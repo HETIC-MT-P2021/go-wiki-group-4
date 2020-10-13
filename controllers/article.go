@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -65,7 +66,7 @@ func GetCommentFromArticleID(c *gin.Context) {
 			"content": false,
 		})
 	} else {
-		c.JSON(http.StatusFound, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"success": true,
 			"message": "Found article successfully",
 			"content": comments,
@@ -94,16 +95,23 @@ func GetLatestArticles(c *gin.Context) {
 func ExportAs(c *gin.Context) {
 	format := c.DefaultQuery("format", "csv")
 
-	var exportStrategy utils.ExportStrategyInterface
+	var exportStrategy = utils.ExportStrategyInterface
 
 	if format == "xlsx" {
-		exportStrategy = utils.InitXLSXStrategy()
+		exportStrategy = utils.ExportStrategyInterface{
+			MIMEType:           utils.XLSXStrategyMIMEType,
+			ExportArticlesFile: utils.ExportArticleXLSX,
+		}
 	} else {
-		exportStrategy = utils.InitCSVStrategy()
+		exportStrategy = utils.ExportStrategyInterface{
+			MIMEType:           utils.CSVStrategyMIMEType,
+			ExportArticlesFile: utils.ExportArticleCSV,
+		}
 	}
 
-	strategyContext := utils.InitExportContext()
-	strategyContext.SetStrategy(exportStrategy)
+	strategyContext := utils.ExportStrategyContext{
+		SelectedStrategy: exportStrategy,
+	}
 
 	response, err := strategyContext.ExportArticles()
 
@@ -115,5 +123,5 @@ func ExportAs(c *gin.Context) {
 		})
 	}
 
-	c.Data(http.StatusOK, response.Type+"; charset=utf-8", response.Data)
+	c.Data(http.StatusOK, fmt.Sprintf("%s; charset=utf-8", response.Type), response.Data)
 }

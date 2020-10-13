@@ -10,15 +10,8 @@ import (
 
 var articleHeaders = []string{"ArticleID", "Title", "Content"}
 
-// InitCSVStrategy returns the strategy to create the CSV file
-func InitCSVStrategy() ExportStrategyInterface {
-	var CSVStrategy ExportStrategyInterface
-
-	CSVStrategy.MIMEType = "text/csv"
-	CSVStrategy.ExportArticlesFile = ExportArticleCSV
-
-	return CSVStrategy
-}
+// CSVStrategyMIMEType Mime type for CSV documents
+var CSVStrategyMIMEType = "text/csv"
 
 // ExportArticleCSV create a csv file and send it
 func ExportArticleCSV(articles []models.Article) (ExportedContent, error) {
