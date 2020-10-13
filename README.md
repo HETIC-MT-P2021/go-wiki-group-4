@@ -1,15 +1,26 @@
 # Our school project
 
-The goal of this project is to create a simple wiki.
+The goal of this project is to create a simple wiki and an introduction to MVC, Strategies design patern and Unit tests in Go.
 We used Golang for our API, and Mysql as a database.
 
 ## Features:
 
 - CRUD articles
-- add comment
+- Add comment
 - Export article's data
+- Some unit tests
 
-## Installation
+### Start with Docker
+
+After cloning the repo, `cd` into the project, create the .env according to the .env.example and run following commands
+
+```bash
+docker-compose up --build
+```
+
+The app will be accessible at localhost:8080 !
+
+## Start manualy
 
 The project requires Golang v 1.14.4
 
@@ -24,21 +35,17 @@ $ go mod vendor
 $ air
 ```
 
-### With Docker
-
-After cloning the repo, `cd` into the project and run following commands
-
-```bash
-docker-compose up --build
-```
-
-The app will be accessible at localhost:8080 !
-
 ### Technical Choices
 
 Feel free to discuss with any contributor about the technical choices that were made.
 Go version : 1.14.4
 MySQL : 8.X
+
+### Authors
+
+- [Myouuu](https://github.com/myouuu)
+- [Tsabot](https://github.com/Tsabot)
+- [Jean-Jacques](https://github.com/gensjaak)
 
 # Licence
 
